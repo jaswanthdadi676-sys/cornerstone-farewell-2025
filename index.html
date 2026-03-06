@@ -61,10 +61,10 @@
       overflow-x: hidden;
     }
 
-    ::-webkit-scrollbar { width: 10px; }
+   ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--navy-dark); }
-    ::-webkit-scrollbar-thumb { background: var(--primary-gold); border-radius: 5px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--primary-gold-dark); }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--primary-gold-dark), var(--primary-gold)); border-radius: 6px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary-gold); }
 
     @keyframes float { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-20px) rotate(5deg);} }
     @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
@@ -348,7 +348,18 @@
     /* Upload */
     #upload { background: var(--navy-medium); }
     .upload-container { max-width: 800px; margin: 0 auto; }
-    .upload-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 30px; padding: 50px; backdrop-filter: blur(20px); }
+   .upload-card {
+      background: var(--gradient-card);
+      border: 1px solid var(--glass-border);
+      border-radius: 32px; padding: 52px;
+      backdrop-filter: blur(24px);
+      box-shadow: var(--shadow-card);
+      position: relative; overflow: hidden;
+    }
+    .upload-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(232,201,109,0.3), transparent);
+    }
 
     .callout {
       margin: 0 0 20px;
@@ -413,22 +424,23 @@
     .form-group label { display: block; margin-bottom: 10px; font-weight: 500; color: var(--text-light); }
     .form-group label .required { color: var(--accent-rose); }
 
-    .form-input, .form-select, .form-textarea {
+  .form-input, .form-select, .form-textarea {
       width: 100%;
-      padding: 16px 20px;
-      background: rgba(255,255,255,0.05);
-      border: 2px solid var(--glass-border);
-      border-radius: 15px;
+      padding: 15px 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
       color: var(--text-light);
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-family: var(--font-body);
       transition: var(--transition-smooth);
     }
     .form-input:focus, .form-select:focus, .form-textarea:focus {
       outline: none;
-      border-color: var(--primary-gold);
-      background: rgba(255,255,255,0.08);
-    }
+      border-color: rgba(232,201,109,0.5);
+      background: rgba(232,201,109,0.04);
+      box-shadow: 0 0 0 4px rgba(232,201,109,0.07);
+    } 
     .form-input::placeholder, .form-textarea::placeholder { color: var(--text-muted); }
 
     .form-select {
@@ -734,20 +746,25 @@
     }
 
     .memory-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
-    .memory-card {
-      background: var(--glass-bg);
+   
+    .memory-media { position: relative; aspect-ratio: 4/3; overflow: hidden; cursor: pointer; }
+    .memory-media img, .memory-media video { width: 100%; height: 100%; object-fit: cover; transition: var(--transition-smooth); }
+    .memory-card:hover .memory-media img, .memory-card:hover .memory-media video { transform: scale(1.05); }
+.memory-card {
+      background: var(--gradient-card);
       border: 1px solid var(--glass-border);
-      border-radius: 20px;
+      border-radius: 24px;
       overflow: hidden;
       transition: var(--transition-smooth);
       animation: fadeInUp 0.6s ease;
       position: relative;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
-    .memory-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: var(--shadow-gold); }
-    .memory-media { position: relative; aspect-ratio: 4/3; overflow: hidden; cursor: pointer; }
-    .memory-media img, .memory-media video { width: 100%; height: 100%; object-fit: cover; transition: var(--transition-smooth); }
-    .memory-card:hover .memory-media img, .memory-card:hover .memory-media video { transform: scale(1.05); }
-
+    .memory-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(232,201,109,0.25);
+      box-shadow: var(--shadow-gold), 0 20px 60px rgba(0,0,0,0.5);
+    }
     .memory-media .play-button {
       position: absolute; top: 50%; left: 50%;
       transform: translate(-50%, -50%);
@@ -786,13 +803,14 @@
 
     .memory-content { padding: 20px; }
     .memory-author { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-    .memory-avatar {
-      width: 40px; height: 40px;
+  .memory-avatar {
+      width: 38px; height: 38px;
       background: var(--gradient-gold);
-      border-radius: 50%;
+      border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--navy-dark);
+      font-size: 0.9rem;
     }
     .memory-author-info { flex: 1; }
     .memory-author-name { font-weight: 600; font-size: 1rem; }
@@ -1058,18 +1076,30 @@
   <style>
     #teachers { background: var(--navy-dark); }
     .teachers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
-    .teacher-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 25px; padding: 30px; text-align: center; transition: var(--transition-smooth); }
-    .teacher-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: var(--shadow-gold); }
+   .teacher-card {
+      background: var(--gradient-card);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px; padding: 36px;
+      text-align: center; transition: var(--transition-smooth);
+      position: relative; overflow: hidden;
+    }
+    .teacher-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--gradient-gold); opacity: 0; transition: var(--transition-smooth);
+    }
+    .teacher-card:hover { transform: translateY(-8px); border-color: rgba(232,201,109,0.2); box-shadow: var(--shadow-gold); }
+    .teacher-card:hover::before { opacity: 1; }
     .teacher-image {
-      width: 120px; height: 120px;
+      width: 110px; height: 110px;
       border-radius: 50%;
-      margin: 0 auto 20px;
+      margin: 0 auto 22px;
       background: var(--gradient-gold);
       display: flex; align-items: center; justify-content: center;
-      font-size: 3rem;
+      font-size: 2.6rem;
       overflow: hidden;
       color: var(--navy-dark);
       font-weight: 800;
+      box-shadow: 0 0 0 6px rgba(232,201,109,0.1);
     }
     .teacher-image img { width: 100%; height: 100%; object-fit: cover; }
     .teacher-name { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; margin-bottom: 5px; }
@@ -1091,10 +1121,9 @@
 
     #quote { background: var(--navy-dark); text-align: center; padding: 150px 20px; }
     .quote-content { max-width: 900px; margin: 0 auto; }
-    .quote-icon { font-size: 4rem; color: var(--primary-gold); margin-bottom: 30px; opacity: 0.5; }
-    .quote-text { font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.5; font-style: italic; margin-bottom: 30px; }
-    .quote-author { color: var(--primary-gold); font-size: 1.2rem; }
-
+   .quote-icon { font-size: 7rem; line-height: 1; color: var(--primary-gold); margin-bottom: 16px; opacity: 0.15; display: block; font-family: var(--font-display); }
+    .quote-text { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.6rem); line-height: 1.5; font-style: italic; margin-bottom: 28px; font-weight: 300; letter-spacing: -0.01em; }
+    .quote-author { color: var(--primary-gold); font-size: 0.85rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 600; }
     footer { background: var(--navy-dark); border-top: 1px solid var(--glass-border); padding: 60px 20px 30px; }
     .footer-content {
       max-width: var(--container-width);
